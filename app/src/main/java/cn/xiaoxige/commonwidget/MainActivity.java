@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import cn.xiaoxige.commonwidgetlibrary.basetitlebar.BaseTitleBar;
+import cn.xiaoxige.commonwidgetlibrary.dialog.MaterialDialog;
 import cn.xiaoxige.commonwidgetlibrary.emptylayoutlibrary.EmptyLayout;
 import cn.xiaoxige.commonwidgetlibrary.statetextview.State4TextView;
 
@@ -46,7 +47,21 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         mStateTextView.showState4();
                     }
+                } else if (id == R.id.center_layout) {
+
+                    final MaterialDialog dialog = new MaterialDialog(MainActivity.this);
+                    dialog.setTitle("点击了中心");
+                    dialog.setMessage("确定吗？");
+                    dialog.setCanceledOnTouchOutside(false);
+                    dialog.setPositiveButton("哈哈", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
                 }
+
             }
         });
     }

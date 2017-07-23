@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="52dp"
+    android:layout_height="@dimen/toolbar_height"
     android:paddingBottom="4dp"
     android:paddingTop="4dp">
 
@@ -33,8 +33,8 @@
     <View
         android:id="@id/bollom_line"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="@dimen/divider_height"
         android:layout_gravity="bottom"
-        android:background="@android:color/darker_gray" />
+        android:background="@color/divider_color" />
 
 </FrameLayout>

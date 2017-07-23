@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="BaseTitleBar">
+
+        <attr name="left_back" format="boolean" />
+        <attr name="center_title" format="reference|string" />
+        <attr name="show_bollom_line" format="boolean" />
+
+    </declare-styleable>
+
+</resources>

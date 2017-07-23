@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="left_layout" format="string" type="id">left_layout</item>
+    <item name="right_layout" format="string" type="id">right_layout</item>
+    <item name="center_layout" format="string" type="id">center_layout</item>
+
+    <item name="bollom_line" format="string" type="id">bollom_line</item>
+
+</resources>

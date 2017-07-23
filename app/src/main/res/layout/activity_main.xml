@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <cn.xiaoxige.commonwidgetlibrary.basetitlebar.BaseTitleBar
+        android:id="@+id/baseTitleBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:center_title="@string/app_name"
@@ -19,10 +20,12 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <TextView
+        <cn.xiaoxige.commonwidgetlibrary.statetextview.State4TextView
+            android:id="@+id/stateText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="小稀革" />
+            android:text="小稀革"
+            android:textColor="@drawable/state4bg" />
 
     </LinearLayout>
 

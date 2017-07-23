@@ -9,4 +9,13 @@
 
     </declare-styleable>
 
+    <declare-styleable name="State4TextView">
+
+        <attr name="state1" format="boolean" />
+        <attr name="state2" format="boolean" />
+        <attr name="state3" format="boolean" />
+        <attr name="state4" format="boolean" />
+
+    </declare-styleable>
+
 </resources>

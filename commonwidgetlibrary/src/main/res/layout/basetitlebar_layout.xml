@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left|center_vertical"
         android:orientation="horizontal"
-        android:padding="4dp" />
+        android:padding="6dp" />
 
 
     <LinearLayout
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right|center_vertical"
         android:orientation="horizontal"
-        android:padding="4dp" />
+        android:padding="6dp" />
 
     <View
         android:id="@id/bollom_line"

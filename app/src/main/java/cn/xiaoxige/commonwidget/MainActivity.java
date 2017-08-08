@@ -1,7 +1,9 @@
 package cn.xiaoxige.commonwidget;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -18,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private State4TextView mStateTextView;
     private int state = 0;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
         mBaseTitleBar = (BaseTitleBar) findViewById(R.id.baseTitleBar);
         mLlCenter = (LinearLayout) findViewById(R.id.llCenter);
         mStateTextView = (State4TextView) findViewById(R.id.stateText);
-
         mEmptyLayout = new EmptyLayout(MainActivity.this, mLlCenter, EmptyLayout.RELATIVEPARENT);
+        mEmptyLayout.setLoadingBackgroudColor(R.color.loading_bgcolor);
         mEmptyLayout.showContent();
         mBaseTitleBar.setRightView(View.inflate(MainActivity.this, R.layout.right_ment_layout, null));
         registerListener();

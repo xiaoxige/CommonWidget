@@ -2,10 +2,13 @@ package cn.xiaoxige.commonwidgetlibrary.emptylayoutlibrary;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
+import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -170,6 +173,23 @@ public class EmptyLayout {
         setRetryVisible(mEmptyView, visible);
     }
 
+
+    public void setErrorBackgroudColor(@ColorRes int color) {
+        invalidateError();
+        mErrorView.setBackgroundColor(ContextCompat.getColor(mContext, color));
+    }
+
+    public void setEmptyBackgroudColor(@ColorRes int color) {
+        invilidateEmpty();
+        mEmptyView.setBackgroundColor(ContextCompat.getColor(mContext, color));
+    }
+
+    public void setLoadingBackgroudColor(@ColorRes int color) {
+        invilidateLoading();
+        mLoadingView.setBackgroundColor(ContextCompat.getColor(mContext, color));
+    }
+
+
     public void showError() {
         mState = STATE_ERROR;
         showInvalidate();
@@ -209,9 +229,6 @@ public class EmptyLayout {
                     showLoadingAnimation();
                 mLoadingView.setVisibility(View.VISIBLE);
                 break;
-            case STATE_CONTENT:
-                mContentView.setVisibility(View.VISIBLE);
-                break;
         }
     }
 
@@ -232,8 +249,6 @@ public class EmptyLayout {
             mEmptyView.setVisibility(View.GONE);
         if (mLoadingView != null)
             mLoadingView.setVisibility(View.GONE);
-        if (mContentView != null)
-            mContentView.setVisibility(View.GONE);
     }
 
     private void invalidateError() {
@@ -247,8 +262,9 @@ public class EmptyLayout {
                     }
                 }
             });
-            addViewInRoot(mErrorView);
+            mErrorView.setBackgroundColor(Color.WHITE);
         }
+        addViewInRoot(mErrorView);
     }
 
     private void invilidateEmpty() {
@@ -262,15 +278,17 @@ public class EmptyLayout {
                     }
                 }
             });
-            addViewInRoot(mEmptyView);
+            mEmptyView.setBackgroundColor(Color.WHITE);
         }
+        addViewInRoot(mEmptyView);
     }
 
     private void invilidateLoading() {
         if (mLoadingView == null) {
             mLoadingView = mInFlater.inflate(R.layout.emtpy_loadinglayout, null);
-            addViewInRoot(mLoadingView);
+            mLoadingView.setBackgroundColor(Color.WHITE);
         }
+        addViewInRoot(mLoadingView);
     }
 
     private View getPackingView(View view) {
@@ -287,7 +305,12 @@ public class EmptyLayout {
     }
 
     private void addViewInRoot(View view) {
-        mRootGroupView.addView(getPackingView(view));
+        if (mRootGroupView == null) {
+            return;
+        }
+        if (view.getParent() == null) {
+            mRootGroupView.addView(getPackingView(view));
+        }
     }
 
     private void setRetryVisible(View view, boolean isShow) {

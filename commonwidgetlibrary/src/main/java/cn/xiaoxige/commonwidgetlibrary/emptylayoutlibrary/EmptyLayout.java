@@ -247,8 +247,8 @@ public class EmptyLayout {
                     }
                 }
             });
-            addViewInRoot(mErrorView);
         }
+        addViewInRoot(mErrorView);
     }
 
     private void invilidateEmpty() {
@@ -262,15 +262,15 @@ public class EmptyLayout {
                     }
                 }
             });
-            addViewInRoot(mEmptyView);
         }
+        addViewInRoot(mEmptyView);
     }
 
     private void invilidateLoading() {
         if (mLoadingView == null) {
             mLoadingView = mInFlater.inflate(R.layout.emtpy_loadinglayout, null);
-            addViewInRoot(mLoadingView);
         }
+        addViewInRoot(mLoadingView);
     }
 
     private View getPackingView(View view) {
@@ -287,7 +287,12 @@ public class EmptyLayout {
     }
 
     private void addViewInRoot(View view) {
-        mRootGroupView.addView(getPackingView(view));
+        if (mRootGroupView == null) {
+            return;
+        }
+        if (view.getParent() == null) {
+            mRootGroupView.addView(getPackingView(view));
+        }
     }
 
     private void setRetryVisible(View view, boolean isShow) {

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -235,10 +236,11 @@ public class EmptyLayout {
     private void showLoadingAnimation() {
         View view = mLoadingView.findViewById(R.id.iv_img);
         RotateAnimation animation = new RotateAnimation(0, 360, RELATIVE_TO_SELF, 0.5f, RELATIVE_TO_SELF, 0.5f);
-        animation.setDuration(500);
+        animation.setDuration(600);
         view.setAnimation(animation);
         animation.setRepeatMode(Animation.RESTART);
         animation.setRepeatCount(-1);
+        animation.setInterpolator(new LinearInterpolator());
         animation.start();
     }
 

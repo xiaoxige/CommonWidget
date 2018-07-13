@@ -3,9 +3,11 @@ package cn.xiaoxige.commonwidgetlibrary.emptylayoutlibrary;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
+import android.support.annotation.CallSuper;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
+import android.support.v4.util.ArrayMap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,8 @@ import android.widget.TextView;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.Map;
+import java.util.Set;
 
 import cn.xiaoxige.commonwidgetlibrary.R;
 
@@ -44,8 +48,8 @@ public class EmptyLayout {
     private onEmptyListener mEmptyListener;
     private onErrorListener mErrorListener;
 
-    private Context mContext;
-    private LayoutInflater mInFlater;
+    protected Context mContext;
+    protected LayoutInflater mInFlater;
     private ViewGroup mRootGroupView;
 
     private View mLoadingView;
@@ -58,7 +62,9 @@ public class EmptyLayout {
      */
     private boolean mIsLoadingTransparent;
     private boolean mIsShowLoadingAnimation;
-    private int mState;
+    protected int mState;
+
+    private Map<Integer, View> mCustomLayouts;
 
     public EmptyLayout(Context context, View view) {
         this(context, view, RELATIVEPARENT);
@@ -66,6 +72,7 @@ public class EmptyLayout {
 
     public EmptyLayout(Context context, View view, @relativeType int relativeWho) {
         this.mContext = context;
+        this.mCustomLayouts = new ArrayMap<>();
 
         if (view == null) {
             throw new NullPointerException("view is null.");
@@ -183,6 +190,23 @@ public class EmptyLayout {
         this.mIsLoadingTransparent = isLoadingTransparent;
     }
 
+    public void addCustomLayout(Integer state, View view) {
+        if (!isLegitimateState(state)) {
+            throw new IllegalArgumentException("This state has already existed, please redefine the state...");
+        }
+        if (view == null) {
+            throw new IllegalArgumentException("Custom empty layout can not be empty...");
+        }
+
+        ViewGroup customParent = (ViewGroup) view.getParent();
+        if (customParent != null) {
+            throw new IllegalArgumentException("Custom layout has a parent layout...");
+        }
+
+        mCustomLayouts.put(state, view);
+    }
+
+
     public void showError() {
         mState = STATE_ERROR;
         showInvalidate();
@@ -203,7 +227,7 @@ public class EmptyLayout {
         showInvalidate();
     }
 
-    private void showInvalidate() {
+    protected void showInvalidate() {
         if (mRootGroupView == null) {
             return;
         }
@@ -228,9 +252,11 @@ public class EmptyLayout {
                 mContentView.setVisibility(View.VISIBLE);
                 break;
             default:
+                handlerCustomLayout();
                 break;
         }
     }
+
 
     private void showLoadingAnimation() {
         View view = mLoadingView.findViewById(R.id.iv_img);
@@ -252,6 +278,13 @@ public class EmptyLayout {
         if (mLoadingView != null) {
             mLoadingView.setVisibility(View.GONE);
         }
+
+        Set<Integer> customStates =
+                mCustomLayouts.keySet();
+        for (Integer state : customStates) {
+            mCustomLayouts.get(state).setVisibility(View.GONE);
+        }
+
         if (mContentView != null) {
             mContentView.setVisibility(mState == STATE_LOADING && mIsLoadingTransparent ? View.VISIBLE : View.GONE);
         }
@@ -292,6 +325,25 @@ public class EmptyLayout {
             mLoadingView = mInFlater.inflate(R.layout.emtpy_loadinglayout, null);
         }
         addViewInRoot(mLoadingView);
+    }
+
+    private void handlerCustomLayout() {
+        View view = mCustomLayouts.get(mState);
+        if (view == null) {
+            return;
+        }
+        addViewInRoot(view);
+        view.setVisibility(View.VISIBLE);
+    }
+
+    private boolean isLegitimateState(Integer state) {
+        if (state == EmptyLayout.STATE_LOADING
+                || state == EmptyLayout.STATE_CONTENT
+                || state == EmptyLayout.STATE_EMPTY
+                || state == EmptyLayout.STATE_ERROR) {
+            return false;
+        }
+        return true;
     }
 
     private View getPackingView(View view) {

@@ -13,7 +13,7 @@ import cn.xiaoxige.commonwidgetlibrary.statetextview.State4TextView;
 
 public class MainActivity extends AppCompatActivity {
     private LinearLayout mLlCenter;
-    private EmptyLayout mEmptyLayout;
+    private CustomEmptyLayout mEmptyLayout;
     private BaseTitleBar mBaseTitleBar;
     private State4TextView mStateTextView;
     private int state = 0;
@@ -26,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
         mLlCenter = (LinearLayout) findViewById(R.id.llCenter);
         mStateTextView = (State4TextView) findViewById(R.id.stateText);
 
-        mEmptyLayout = new EmptyLayout(MainActivity.this, mLlCenter, EmptyLayout.RELATIVEPARENT);
+        mEmptyLayout = new CustomEmptyLayout(MainActivity.this, mLlCenter, EmptyLayout.RELATIVEPARENT);
+        mEmptyLayout.setIsLoadingTransparent(false);
         mEmptyLayout.showContent();
         mBaseTitleBar.setRightView(View.inflate(MainActivity.this, R.layout.right_ment_layout, null));
         registerListener();
@@ -80,5 +81,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickCenter(View v) {
         mEmptyLayout.showContent();
+    }
+
+    public void onClickCustom(View v) {
+        mEmptyLayout.showCustumLayout();
     }
 }

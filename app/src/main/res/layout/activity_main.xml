@@ -39,28 +39,40 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="onClickEmpty"
-            android:text="empty" />
+            android:text="empty"
+            android:textSize="10sp" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="onClickError"
-            android:text="error" />
+            android:text="error"
+            android:textSize="10sp" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="onClickLoading"
-            android:text="loading" />
+            android:text="loading"
+            android:textSize="10sp" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="onClickCenter"
-            android:text="center" />
+            android:text="center"
+            android:textSize="10sp" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onClickCustom"
+            android:text="custom"
+            android:textSize="10sp" />
 
     </LinearLayout>
 

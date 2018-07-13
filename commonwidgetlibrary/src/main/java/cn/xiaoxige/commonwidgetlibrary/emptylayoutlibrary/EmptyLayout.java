@@ -53,6 +53,10 @@ public class EmptyLayout {
     private View mEmptyView;
     private View mContentView;
 
+    /**
+     * 加载时是否透明
+     */
+    private boolean mIsLoadingTransparent;
     private boolean mIsShowLoadingAnimation;
     private int mState;
 
@@ -77,6 +81,7 @@ public class EmptyLayout {
             throw new ExceptionInInitializerError("it's relative is parent and parent can't with view.");
         }
 
+        this.mIsLoadingTransparent = true;
         this.mIsShowLoadingAnimation = true;
         mState = STATE_CONTENT;
 
@@ -170,6 +175,14 @@ public class EmptyLayout {
         setRetryVisible(mEmptyView, visible);
     }
 
+    public void setIsShowLoadingAnimation(boolean isShowLoadingAnimation) {
+        this.mIsShowLoadingAnimation = isShowLoadingAnimation;
+    }
+
+    public void setIsLoadingTransparent(boolean isLoadingTransparent) {
+        this.mIsLoadingTransparent = isLoadingTransparent;
+    }
+
     public void showError() {
         mState = STATE_ERROR;
         showInvalidate();
@@ -191,8 +204,9 @@ public class EmptyLayout {
     }
 
     private void showInvalidate() {
-        if (mRootGroupView == null)
+        if (mRootGroupView == null) {
             return;
+        }
         hindAll();
         switch (mState) {
             case STATE_ERROR:
@@ -205,12 +219,15 @@ public class EmptyLayout {
                 break;
             case STATE_LOADING:
                 invilidateLoading();
-                if (mIsShowLoadingAnimation)
+                if (mIsShowLoadingAnimation) {
                     showLoadingAnimation();
+                }
                 mLoadingView.setVisibility(View.VISIBLE);
                 break;
             case STATE_CONTENT:
                 mContentView.setVisibility(View.VISIBLE);
+                break;
+            default:
                 break;
         }
     }
@@ -226,14 +243,18 @@ public class EmptyLayout {
     }
 
     private void hindAll() {
-        if (mErrorView != null)
+        if (mErrorView != null) {
             mErrorView.setVisibility(View.GONE);
-        if (mEmptyView != null)
+        }
+        if (mEmptyView != null) {
             mEmptyView.setVisibility(View.GONE);
-        if (mLoadingView != null)
+        }
+        if (mLoadingView != null) {
             mLoadingView.setVisibility(View.GONE);
-        if (mContentView != null)
-            mContentView.setVisibility(View.GONE);
+        }
+        if (mContentView != null) {
+            mContentView.setVisibility(mState == STATE_LOADING && mIsLoadingTransparent ? View.VISIBLE : View.GONE);
+        }
     }
 
     private void invalidateError() {
@@ -296,27 +317,31 @@ public class EmptyLayout {
     }
 
     private void setRetryVisible(View view, boolean isShow) {
-        if (view == null)
+        if (view == null) {
             return;
+        }
         (view.findViewById(R.id.btn_retry)).setVisibility(isShow ? View.VISIBLE : View.GONE);
     }
 
     private void setIcon(View view, @DrawableRes int iconId) {
-        if (view == null)
+        if (view == null) {
             return;
+        }
         ((ImageView) view.findViewById(R.id.iv_img)).setImageResource(iconId);
     }
 
 
     private void setMsg(View view, String msg) {
-        if (view == null)
+        if (view == null) {
             return;
+        }
         ((TextView) view.findViewById(R.id.tv_msg)).setText(msg);
     }
 
     private void setReTryText(View view, String msg) {
-        if (view == null)
+        if (view == null) {
             return;
+        }
         ((Button) view.findViewById(R.id.btn_retry)).setText(msg);
     }
 
